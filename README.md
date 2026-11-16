@@ -1,6 +1,6 @@
-# DAILO App
+# Basic APP (Angular)
 
-Frontend aplikacji **DAILO** – panelu administracyjnego z logowaniem, kontem użytkownika oraz
+Frontend panelu administracyjnego z logowaniem, kontem użytkownika oraz
 zarządzaniem użytkownikami, rolami i uprawnieniami. Aplikacja współpracuje z API (Laravel)
 i jest dostępna w trzech językach: polskim, angielskim i hiszpańskim.
 
@@ -126,7 +126,7 @@ npm install
 
 | Polecenie           | Opis                                            |
 | ------------------- | ----------------------------------------------- |
-| `npm run build`     | Build produkcyjny + `post-build`         |
+| `npm run build`     | Build produkcyjny + `post-build`                |
 | `npm run build-dev` | Build w konfiguracji development + `post-build` |
 | `npm run build-all` | Oba warianty po kolei                           |
 
