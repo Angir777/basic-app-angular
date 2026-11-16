@@ -1,0 +1,202 @@
+<z-sidebar zCollapsible="icon">
+  <div z-sidebar-header>
+    <lib-sidebar-07-team-switcher [teams]="teams" />
+  </div>
+
+  <z-sidebar-content>
+    <div z-sidebar-group>
+      <div z-sidebar-group-label>Menu</div>
+      <ul z-sidebar-menu>
+        @for (nav of navItems; track nav.name; let i = $index) {
+          <li
+            z-sidebar-menu-item
+            z-collapsible
+            class="group/collapsible"
+            [zOpen]="openSubmenu === 'main-' + i || isMenuActive(nav)"
+          >
+            @if (nav.subItems && isCollapsed()) {
+              <ng-container
+                [ngTemplateOutlet]="collapsedGroup"
+                [ngTemplateOutletContext]="{ $implicit: nav }"
+              />
+            } @else if (nav.subItems) {
+              <button
+                class="cursor-pointer"
+                z-sidebar-menu-button
+                z-collapsible-trigger
+                [zTooltip]="nav.name | translate"
+                (click)="toggleSubmenu('main', i)"
+              >
+                @if (nav.icon) {
+                  <span [innerHTML]="nav.icon | safeHtml"></span>
+                }
+                @if (nav.faIcon) {
+                  <fa-icon [icon]="nav.faIcon" />
+                }
+                <span>{{ nav.name | translate }}</span>
+                <ng-icon
+                  name="lucideChevronRight"
+                  class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
+                />
+              </button>
+              <z-collapsible-content>
+                <ul z-sidebar-menu-sub>
+                  @for (subItem of nav.subItems; track subItem.path) {
+                    <li z-sidebar-menu-sub-item>
+                      <a
+                        z-sidebar-menu-sub-button
+                        [routerLink]="subItem.path"
+                        routerLinkActive="bg-sidebar-accent"
+                        [routerLinkActiveOptions]="{ exact: subItem.path === '/' }"
+                        (click)="onSubmenuClick()"
+                      >
+                        <span>{{ subItem.name | translate }}</span>
+                      </a>
+                    </li>
+                  }
+                </ul>
+              </z-collapsible-content>
+            } @else if (nav.path) {
+              <a
+                z-sidebar-menu-button
+                [routerLink]="nav.path"
+                routerLinkActive="bg-sidebar-accent"
+                [routerLinkActiveOptions]="{ exact: nav.path === '/' }"
+                [zTooltip]="nav.name | translate"
+                (click)="onSubmenuClick()"
+              >
+                @if (nav.icon) {
+                  <span [innerHTML]="nav.icon | safeHtml"></span>
+                }
+                @if (nav.faIcon) {
+                  <fa-icon [icon]="nav.faIcon" />
+                }
+                <span>{{ nav.name | translate }}</span>
+              </a>
+            }
+          </li>
+        }
+      </ul>
+    </div>
+
+    @if (othersItems.length) {
+      <div z-sidebar-group>
+        <div z-sidebar-group-label>Others</div>
+        <ul z-sidebar-menu>
+          @for (nav of othersItems; track nav.name; let i = $index) {
+            <li
+              z-sidebar-menu-item
+              z-collapsible
+              class="group/collapsible"
+              [zOpen]="openSubmenu === 'others-' + i || isMenuActive(nav)"
+            >
+              @if (nav.subItems && isCollapsed()) {
+                <ng-container
+                  [ngTemplateOutlet]="collapsedGroup"
+                  [ngTemplateOutletContext]="{ $implicit: nav }"
+                />
+              } @else if (nav.subItems) {
+                <button
+                  z-sidebar-menu-button
+                  z-collapsible-trigger
+                  [zTooltip]="nav.name | translate"
+                  (click)="toggleSubmenu('others', i)"
+                >
+                  @if (nav.icon) {
+                    <span [innerHTML]="nav.icon | safeHtml"></span>
+                  }
+                  @if (nav.faIcon) {
+                    <fa-icon [icon]="nav.faIcon" />
+                  }
+                  <span>{{ nav.name | translate }}</span>
+                  <ng-icon
+                    name="lucideChevronRight"
+                    class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
+                  />
+                </button>
+                <z-collapsible-content>
+                  <ul z-sidebar-menu-sub>
+                    @for (subItem of nav.subItems; track subItem.path) {
+                      <li z-sidebar-menu-sub-item>
+                        <a
+                          z-sidebar-menu-sub-button
+                          [routerLink]="subItem.path"
+                          routerLinkActive="bg-sidebar-accent"
+                          [routerLinkActiveOptions]="{ exact: subItem.path === '/' }"
+                          (click)="onSubmenuClick()"
+                        >
+                          <span>{{ subItem.name | translate }}</span>
+                        </a>
+                      </li>
+                    }
+                  </ul>
+                </z-collapsible-content>
+              } @else if (nav.path) {
+                <a
+                  z-sidebar-menu-button
+                  [routerLink]="nav.path"
+                  routerLinkActive="bg-sidebar-accent"
+                  [routerLinkActiveOptions]="{ exact: nav.path === '/' }"
+                  [zTooltip]="nav.name | translate"
+                  (click)="onSubmenuClick()"
+                >
+                  @if (nav.icon) {
+                    <span [innerHTML]="nav.icon | safeHtml"></span>
+                  }
+                  @if (nav.faIcon) {
+                    <fa-icon [icon]="nav.faIcon" />
+                  }
+                  <span>{{ nav.name | translate }}</span></a
+                >
+              }
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  </z-sidebar-content>
+
+  <div z-sidebar-footer>
+    @if (userInitials; as user) {
+      <lib-sidebar-07-nav-user [user]="user" />
+    }
+  </div>
+</z-sidebar>
+
+<!-- Collapsed (icon) sidebar: grouped items open as a dropdown next to the icon -->
+<ng-template #collapsedGroup let-nav>
+  <button
+    class="cursor-pointer data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+    z-sidebar-menu-button
+    z-dropdown
+    [zDropdownMenu]="groupMenu"
+    [zActive]="isMenuActive(nav)"
+    [attr.aria-label]="nav.name | translate"
+  >
+    @if (nav.icon) {
+      <span [innerHTML]="nav.icon | safeHtml"></span>
+    }
+    @if (nav.faIcon) {
+      <fa-icon [icon]="nav.faIcon" />
+    }
+    <span>{{ nav.name | translate }}</span>
+  </button>
+
+  <z-dropdown-menu-content
+    #groupMenu="zDropdownMenuContent"
+    class="min-w-48 rounded-lg"
+    zSide="right"
+    zAlign="start"
+  >
+    <z-dropdown-menu-label>{{ nav.name | translate }}</z-dropdown-menu-label>
+    <z-dropdown-menu-separator />
+    @for (subItem of nav.subItems; track subItem.path) {
+      <z-dropdown-menu-item
+        [routerLink]="subItem.path"
+        [class]="isActive(subItem.path) ? 'bg-accent text-accent-foreground' : ''"
+      >
+        {{ subItem.name | translate }}
+      </z-dropdown-menu-item>
+    }
+  </z-dropdown-menu-content>
+</ng-template>

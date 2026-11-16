@@ -1,0 +1,33 @@
+<footer class="border-t bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
+  <div
+    class="mx-auto flex flex-col items-center justify-between gap-3 px-4 py-4 text-sm md:flex-row md:px-6"
+  >
+    <!-- Left -->
+    <div class="flex items-center gap-2 text-zinc-700 dark:text-zinc-300">
+      <span class="font-medium text-zinc-700 dark:text-zinc-300">
+        {{ 'main.appName' | translate }}
+      </span>
+
+      <span>
+        {{ 'layout.footer.copyright' | translate: { year: currentYear } }}
+      </span>
+    </div>
+
+    <!-- Center -->
+    <!-- <div class="flex items-center gap-4">
+      <a routerLink="/support" class="transition-colors hover:text-brand-500">Support</a>
+    </div> -->
+
+    <!-- Right -->
+    <div class="flex items-center gap-2 text-zinc-700 dark:text-zinc-300">
+      <button type="button" (click)="openChangelog($event)" class="cursor-pointer">
+        v{{ version }}
+      </button>
+
+      <div
+        class="h-2 w-2 rounded-full"
+        [ngClass]="systemIsAvailable() ? 'bg-emerald-500' : 'bg-red-500'"
+      ></div>
+    </div>
+  </div>
+</footer>

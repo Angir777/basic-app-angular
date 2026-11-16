@@ -1,0 +1,148 @@
+<form name="form" role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="px-6 py-4 border-b border-gray-200 dark:border-zinc-800">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+      <h5 class="text-lg font-semibold text-gray-800 dark:text-white/90">
+        @if (user()?.id) {
+          {{ 'user.pageTitle.edit' | translate }}
+        } @else {
+          {{ 'user.pageTitle.add' | translate }}
+        }
+      </h5>
+
+      <div class="flex flex-wrap gap-2 sm:ml-auto">
+        <ng-container *ngTemplateOutlet="actionsButtons" />
+      </div>
+    </div>
+  </div>
+
+  <div class="p-6">
+    @if (isLoading()) {
+      <div class="flex justify-center py-12">
+        <app-loader [isLoading]="true"></app-loader>
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <!-- First name -->
+        <div class="flex flex-col gap-1.5">
+          <label for="firstName" class="text-sm font-medium text-gray-700 dark:text-gray-200">
+            {{ 'user.form.firstName' | translate }} *
+          </label>
+
+          <input
+            z-input
+            id="firstName"
+            name="firstName"
+            type="text"
+            formControlName="firstName"
+            autocomplete="off"
+            [attr.aria-invalid]="isFormControlInvalid('firstName', 'firstName') ? 'true' : null"
+            (keydown)="clearServerErrors('firstName')"
+          />
+
+          @if (isFormControlInvalid('firstName', 'firstName')) {
+            <app-form-control-errors
+              [errors]="form.get('firstName')?.errors"
+              [serverErrors]="getServerErrors('firstName')"
+            />
+          }
+        </div>
+
+        <!-- Last name -->
+        <div class="flex flex-col gap-1.5">
+          <label for="lastName" class="text-sm font-medium text-gray-700 dark:text-gray-200">
+            {{ 'user.form.lastName' | translate }} *
+          </label>
+
+          <input
+            z-input
+            id="lastName"
+            name="lastName"
+            type="text"
+            formControlName="lastName"
+            autocomplete="off"
+            [attr.aria-invalid]="isFormControlInvalid('lastName', 'lastName') ? 'true' : null"
+            (keydown)="clearServerErrors('lastName')"
+          />
+
+          @if (isFormControlInvalid('lastName', 'lastName')) {
+            <app-form-control-errors
+              [errors]="form.get('lastName')?.errors"
+              [serverErrors]="getServerErrors('lastName')"
+            />
+          }
+        </div>
+
+        <!-- Email -->
+        <div class="flex flex-col gap-1.5">
+          <label for="email" class="text-sm font-medium text-gray-700 dark:text-gray-200">
+            {{ 'user.form.email' | translate }} *
+          </label>
+
+          <input
+            z-input
+            id="email"
+            name="email"
+            type="email"
+            formControlName="email"
+            autocomplete="off"
+            [attr.aria-invalid]="isFormControlInvalid('email', 'email') ? 'true' : null"
+            (keydown)="clearServerErrors('email')"
+          />
+
+          @if (isFormControlInvalid('email', 'email')) {
+            <app-form-control-errors
+              [errors]="form.get('email')?.errors"
+              [serverErrors]="getServerErrors('email')"
+            />
+          }
+        </div>
+
+        <!-- Account confirmed -->
+        <div>
+          <div
+            class="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-4 dark:border-zinc-700"
+          >
+            <div>
+              <div class="font-medium text-gray-900 dark:text-white">
+                {{ 'user.form.confirmed' | translate }}
+              </div>
+
+              <div class="text-xs text-gray-500 dark:text-gray-400">
+                @if (emailVerifiedAt()) {
+                  {{ emailVerifiedAt() | date: DATETIME_DISPLAY_HISTORY_FORMAT }}
+                } @else {
+                  {{ 'user.form.notConfirmed' | translate }}
+                }
+              </div>
+            </div>
+
+            <ui-switch size="small" formControlName="confirmed"> </ui-switch>
+          </div>
+
+          @if (isFormControlInvalid('confirmed', 'confirmed')) {
+            <app-form-control-errors
+              [errors]="form.get('confirmed')?.errors"
+              [serverErrors]="getServerErrors('confirmed')"
+            />
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <div
+    class="flex flex-col gap-3 border-t border-gray-200 px-6 py-4 dark:border-zinc-800 sm:flex-row sm:justify-end"
+  >
+    <ng-container *ngTemplateOutlet="actionsButtons" />
+  </div>
+</form>
+
+<!-- Actions -->
+<ng-template #actionsButtons>
+  @if (!isLoading()) {
+    <!-- Save -->
+    <app-save-button type="submit" [loading]="isSaving()"></app-save-button>
+  }
+  <!-- Back -->
+  <app-cancel-button></app-cancel-button>
+</ng-template>

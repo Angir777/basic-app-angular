@@ -1,0 +1,113 @@
+.three-state-switch {
+  position: relative;
+  display: inline-block;
+  box-sizing: content-box;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: 1px solid #dfdfdf;
+  background: #ddd;
+}
+
+.three-state-switch.switch-small {
+  width: 50px;
+  height: 20px;
+  border-radius: 20px;
+}
+
+.three-state-switch.switch-medium {
+  width: 70px;
+  height: 30px;
+  border-radius: 30px;
+}
+
+.three-state-switch.switch-large {
+  width: 100px;
+  height: 40px;
+  border-radius: 40px;
+}
+
+.three-state-switch.active {
+  background: rgb(100, 189, 99);
+  /* Background for the true state */
+}
+
+.three-state-switch.switch-false {
+  background: rgb(100, 189, 99);
+  /* Background for the false state */
+}
+
+.three-state-switch.neutral {
+  background: #f0f0f0;
+  /* Background for the null state */
+}
+
+.switch-knob {
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition:
+    left 0.3s ease,
+    background-color 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Sizes for each switch-knob */
+.switch-small .switch-knob {
+  width: 21px;
+  height: 21px;
+}
+
+.switch-medium .switch-knob {
+  width: 30px;
+  height: 30px;
+}
+
+.switch-large .switch-knob {
+  width: 40px;
+  height: 40px;
+}
+
+/* Position for each state */
+.switch-small .switch-left {
+  left: 0;
+}
+
+.switch-small .switch-middle {
+  left: calc(50% - 10px);
+  /* Adjusted to the knob width */
+}
+
+.switch-small .switch-right {
+  left: calc(100% - 20px);
+  /* Adjusted to the knob width */
+}
+
+.switch-medium .switch-left {
+  left: 0;
+}
+
+.switch-medium .switch-middle {
+  left: calc(50% - 15px);
+  /* Adjusted to the knob width */
+}
+
+.switch-medium .switch-right {
+  left: calc(100% - 30px);
+  /* Adjusted to the knob width */
+}
+
+.switch-large .switch-left {
+  left: 0;
+}
+
+.switch-large .switch-middle {
+  left: calc(50% - 20px);
+  /* Adjusted to the knob width */
+}
+
+.switch-large .switch-right {
+  left: calc(100% - 40px);
+  /* Adjusted to the knob width */
+}

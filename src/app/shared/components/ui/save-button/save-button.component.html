@@ -1,0 +1,20 @@
+@if (!preview) {
+  <button
+    [type]="type"
+    [attr.form]="form"
+    [disabled]="disabled || loading"
+    (click)="onClick($event)"
+    class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-md border border-gray-200 text-gray-700 hover:bg-gray-100 transition cursor-pointer dark:border-zinc-800 dark:text-gray-200 dark:hover:bg-zinc-800"
+    [ngClass]="sizeClass"
+  >
+    @if (loading) {
+      <fa-icon [icon]="faSpinner" animation="spin" class="text-sm"></fa-icon>
+    } @else {
+      <fa-icon [icon]="faSave" class="text-sm"></fa-icon>
+    }
+
+    <span>
+      {{ label | translate }}
+    </span>
+  </button>
+}

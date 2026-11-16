@@ -1,0 +1,52 @@
+<!-- BUTTON -->
+<button
+  type="button"
+  class="h-11 w-11 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-0 overflow-hidden cursor-pointer"
+  z-dropdown
+  [zDropdownMenu]="userMenu"
+>
+  @if (credentials()?.avatarUrl) {
+    <img [src]="credentials()!.avatarUrl!" class="block h-full w-full object-cover" alt="User" />
+  } @else {
+    <div
+      class="flex h-full w-full items-center justify-center bg-zinc-100 text-sm font-semibold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+    >
+      {{ userInitials }}
+    </div>
+  }
+</button>
+
+<!-- MENU -->
+<z-dropdown-menu-content
+  #userMenu="zDropdownMenuContent"
+  class="w-60 rounded-lg"
+  zSide="bottom"
+  zAlign="end"
+  zSideOffset="12"
+>
+  <!-- HEADER -->
+  <z-dropdown-menu-label>
+    <div class="truncate font-medium text-foreground">
+      {{ credentials()?.firstName }} {{ credentials()?.lastName }}
+    </div>
+    <div class="truncate text-xs font-normal text-muted-foreground">
+      {{ credentials()?.email }}
+    </div>
+  </z-dropdown-menu-label>
+
+  <z-dropdown-menu-separator />
+
+  <!-- ITEMS -->
+  <z-dropdown-menu-item (click)="goToAccount()">
+    <ng-icon name="lucideUser" />
+    {{ 'layout.header.user.myAccount' | translate }}
+  </z-dropdown-menu-item>
+
+  <z-dropdown-menu-separator />
+
+  <!-- FOOTER -->
+  <z-dropdown-menu-item (click)="logOut()">
+    <ng-icon name="lucideLogOut" />
+    {{ 'layout.header.user.logOut' | translate }}
+  </z-dropdown-menu-item>
+</z-dropdown-menu-content>

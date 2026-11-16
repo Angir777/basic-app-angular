@@ -1,0 +1,121 @@
+<div class="flex max-h-[85vh] flex-col overflow-hidden">
+  <div class="min-h-0 pt-2">
+    @if (isLoading()) {
+      <div class="flex min-h-48 items-center justify-center">
+        <app-loader [isLoading]="isLoading()"></app-loader>
+      </div>
+    } @else {
+      @if (history.length > 0) {
+        <div
+          class="max-h-[calc(85vh-145px)] overflow-auto rounded-lg border border-gray-200 dark:border-gray-700"
+        >
+          <table class="w-full border-collapse text-sm">
+            <thead class="bg-gray-50 dark:bg-gray-800/70">
+              <tr>
+                <!-- Data -->
+                <th
+                  class="w-px whitespace-nowrap px-3 py-3 text-left font-medium text-gray-700 dark:text-gray-200"
+                >
+                  {{ 'main.global.history.headers.createdAt' | translate }}
+                </th>
+
+                <!-- Changed by -->
+                <th
+                  class="w-px whitespace-nowrap px-3 py-3 text-left font-medium text-gray-700 dark:text-gray-200"
+                >
+                  {{ 'main.global.history.headers.changedBy' | translate }}
+                </th>
+
+                <!-- Action type -->
+                <th
+                  class="w-px whitespace-nowrap px-3 py-3 text-left font-medium text-gray-700 dark:text-gray-200"
+                >
+                  {{ 'main.global.history.headers.actionType' | translate }}
+                </th>
+
+                <!-- IP -->
+                @if (isAdministrator()) {
+                  <th
+                    class="w-px whitespace-nowrap px-3 py-3 text-left font-medium text-gray-700 dark:text-gray-200"
+                  >
+                    {{ 'main.global.history.headers.ip' | translate }}
+                  </th>
+                }
+
+                <!-- Old vs new data -->
+                <th
+                  class="min-w-75 px-3 py-3 text-center font-medium text-gray-700 dark:text-gray-200"
+                >
+                  {{ 'main.global.history.headers.oldData' | translate }}
+                  <span class="text-gray-400">vs.</span>
+                  {{ 'main.global.history.headers.newData' | translate }}
+                </th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+              @for (his of history; track his.id) {
+                <tr class="transition hover:bg-gray-50 dark:hover:bg-gray-800/40">
+                  <!-- Data -->
+                  <td
+                    class="whitespace-nowrap px-3 py-3 align-top text-gray-700 dark:text-gray-300"
+                  >
+                    {{ his.createdAt | date: DATETIME_DISPLAY_HISTORY_FORMAT }}
+                  </td>
+
+                  <!-- Changed by -->
+                  <td class="px-3 py-3 align-top text-gray-700 dark:text-gray-300">
+                    <div class="flex flex-col">
+                      <span class="font-medium text-gray-800 dark:text-gray-100">
+                        {{ his.changedByUserName }}
+                      </span>
+
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        {{ his.changedByUserEmail }}
+                      </span>
+                    </div>
+                  </td>
+
+                  <!-- Action type -->
+                  <td
+                    class="whitespace-nowrap px-3 py-3 align-top text-gray-700 dark:text-gray-300"
+                  >
+                    {{ 'main.global.history.actionTypes.' + his.actionType | translate }}
+                  </td>
+
+                  <!-- IP -->
+                  @if (isAdministrator()) {
+                    <td
+                      class="whitespace-nowrap px-3 py-3 align-top text-gray-700 dark:text-gray-300"
+                    >
+                      {{ his.ip || '-' }}
+                    </td>
+                  }
+
+                  <!-- Old vs new data -->
+                  <td class="px-3 py-3 align-top">
+                    <app-role-history-object [history]="his.diff"></app-role-history-object>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div
+          class="flex min-h-32 items-center justify-center rounded-lg border border-gray-200 bg-gray-50 px-4 py-8 text-center text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-400"
+        >
+          {{ 'main.global.history.empty' | translate }}
+        </div>
+      }
+    }
+  </div>
+
+  <div class="flex shrink-0 justify-end pt-3">
+    <app-cancel-button
+      label="main.global.button.close"
+      (clicked)="close()"
+      [showIcon]="false"
+    ></app-cancel-button>
+  </div>
+</div>

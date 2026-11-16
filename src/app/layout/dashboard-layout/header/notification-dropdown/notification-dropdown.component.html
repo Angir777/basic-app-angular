@@ -1,0 +1,60 @@
+<button
+  z-button
+  zType="ghost"
+  zSize="icon-sm"
+  z-dropdown
+  class="relative"
+  [zDropdownMenu]="notificationMenu"
+  [attr.aria-label]="'layout.header.notification.title' | translate"
+>
+  <ng-icon name="lucideBell" />
+
+  <!-- New notifications indicator -->
+  @if (notifications.length > 0) {
+    <span class="absolute right-1 top-1 flex size-2">
+      <span
+        class="absolute inline-flex size-full animate-ping rounded-full bg-orange-400 opacity-75"
+      ></span>
+      <span class="relative inline-flex size-2 rounded-full bg-orange-500"></span>
+    </span>
+  }
+</button>
+
+<z-dropdown-menu-content
+  #notificationMenu="zDropdownMenuContent"
+  class="w-80 rounded-lg"
+  zSide="bottom"
+  zAlign="end"
+>
+  <z-dropdown-menu-label>{{
+    'layout.header.notification.title' | translate
+  }}</z-dropdown-menu-label>
+
+  <z-dropdown-menu-separator />
+
+  <z-dropdown-menu-group class="max-h-80 overflow-y-auto">
+    @for (notification of notifications; track notification.user) {
+      <z-dropdown-menu-item class="items-start gap-3 py-2">
+        <z-avatar
+          class="size-8 rounded-lg"
+          [zSrc]="notification.avatar"
+          [zAlt]="notification.user"
+          [zShowBadge]="true"
+          [zBadgeClass]="notification.online ? 'bg-green-500' : 'bg-red-500'"
+        />
+
+        <div class="grid flex-1 text-left text-sm leading-tight">
+          <span class="truncate font-medium">{{ notification.user }}</span>
+          <span class="text-muted-foreground text-xs">{{ notification.message }}</span>
+          <span class="text-muted-foreground mt-1 text-xs">{{ notification.time }}</span>
+        </div>
+      </z-dropdown-menu-item>
+    }
+  </z-dropdown-menu-group>
+
+  <z-dropdown-menu-separator />
+
+  <z-dropdown-menu-item class="justify-center font-medium">
+    {{ 'layout.header.notification.seeAll' | translate }}
+  </z-dropdown-menu-item>
+</z-dropdown-menu-content>

@@ -1,0 +1,22 @@
+/* ng-select dropdown panel - light mode */
+
+// ng-select options in light mode: gray backgrounds instead of blue
+// Hover / keyboard navigation (ng-option-marked)
+:root:not(.dark) .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  color: var(--accent-foreground);
+  background-color: var(--accent);
+}
+
+// Selected option
+:root:not(.dark) .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {
+  color: var(--accent-foreground);
+  background-color: color-mix(in oklch, var(--accent), var(--foreground) 6%);
+}
+
+// Selected option + hover
+:root:not(.dark)
+  .ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected.ng-option-marked {
+  background-color: color-mix(in oklch, var(--accent), var(--foreground) 10%);
+}

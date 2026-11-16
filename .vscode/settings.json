@@ -1,0 +1,17 @@
+{
+  "cSpell.language": "en,pl,pl-PL",
+  "cSpell.words": [],
+  "files.eol": "\n",
+  "editor.rulers": [80, 150],
+  "javascript.preferences.importModuleSpecifier": "project-relative",
+  "typescript.preferences.importModuleSpecifier": "project-relative",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "i18n-ally.localesPaths": ["src/assets/i18n/*"],
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.namespace": true,
+  "i18n-ally.pathMatcher": "{locale}/{namespaces}.json",
+  "prettier.prettierPath": "./node_modules/prettier"
+}

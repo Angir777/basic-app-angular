@@ -1,0 +1,24 @@
+@if (link) {
+  <a
+    [routerLink]="link"
+    class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-md border border-gray-200 text-gray-700 hover:bg-gray-100 transition cursor-pointer dark:border-zinc-800 dark:text-gray-200 dark:hover:bg-zinc-800"
+  >
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </a>
+} @else {
+  <button
+    type="button"
+    class="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-md border border-gray-200 text-gray-700 hover:bg-gray-100 transition cursor-pointer dark:border-zinc-800 dark:text-gray-200 dark:hover:bg-zinc-800"
+    (click)="goBack($event)"
+  >
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </button>
+}
+
+<ng-template #content>
+  @if (showIcon) {
+    <fa-icon [icon]="faArrowLeft" class="text-xs"></fa-icon>
+  }
+
+  <span>{{ label | translate }}</span>
+</ng-template>

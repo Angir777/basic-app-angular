@@ -1,0 +1,13 @@
+{
+  "error": {
+    "pageTitle": {
+      "error": "ERROR"
+    },
+    "texts": {
+      "info": "¡No podemos encontrar la página que estás buscando!"
+    },
+    "buttons": {
+      "backToDashboard": "Volver a la página principal"
+    }
+  }
+}

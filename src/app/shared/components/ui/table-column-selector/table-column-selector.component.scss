@@ -1,0 +1,92 @@
+.column-selector-wrapper {
+  position: relative;
+  width: 220px;
+}
+
+.column-selector {
+  width: 100%;
+}
+
+.column-selector ::ng-deep .ng-value {
+  display: none !important;
+}
+
+.column-selector-label {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.column-selector ::ng-deep .ng-option {
+  display: block;
+  text-align: left;
+}
+
+.column-option {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.column-option-label {
+  grid-column: 2;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Remap the default (blue) ng-select theme variables to the project theme tokens. */
+:host {
+  --ng-select-highlight: var(--ring);
+  --ng-select-box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+  --ng-select-border: var(--border);
+  --ng-select-border-dark: var(--border);
+  --ng-select-border-light: var(--border);
+  --ng-select-border-lighter: var(--border);
+  --ng-select-bg: var(--background);
+  --ng-select-primary-text: var(--foreground);
+  --ng-select-dropdown-bg: var(--popover);
+  --ng-select-dropdown-border: var(--border);
+  --ng-select-dropdown-option-bg: var(--popover);
+  --ng-select-dropdown-option-text: var(--popover-foreground);
+  --ng-select-selected: var(--popover);
+  --ng-select-selected-text: var(--popover-foreground);
+  --ng-select-selected-hover: var(--accent);
+  --ng-select-selected-border: var(--border);
+  --ng-select-marked: var(--accent);
+  --ng-select-marked-text: var(--accent-foreground);
+}
+
+/* Dropdown colors aligned with the project theme tokens (replaces the default blue ng-select theme). */
+.column-selector ::ng-deep .ng-dropdown-panel {
+  border-color: var(--border);
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+}
+
+.column-selector ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option,
+.column-selector
+  ::ng-deep
+  .ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected {
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+}
+
+.column-selector ::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked,
+.column-selector
+  ::ng-deep
+  .ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected.ng-option-marked {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}

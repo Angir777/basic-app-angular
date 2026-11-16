@@ -1,0 +1,8 @@
+@if (isMobileOpen$ | async) {
+  <button
+    type="button"
+    class="fixed inset-0 z-40 bg-gray-900/50 lg:hidden"
+    (click)="closeSidebar()"
+    aria-label="Close sidebar overlay"
+  ></button>
+}

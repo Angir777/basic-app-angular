@@ -1,0 +1,108 @@
+@if (!hasServerErrors()) {
+  @if (errors?.min) {
+    <small class="text-red-600">
+      {{
+        (!hasCustomErrorMessage('min')
+          ? 'main.global.validation.min'
+          : customValidationMessages['min']
+        ) | translate: { min: errors.min.min }
+      }}
+    </small>
+  }
+
+  @if (errors?.max) {
+    <small class="text-red-600">
+      {{
+        (!hasCustomErrorMessage('max')
+          ? 'main.global.validation.max'
+          : customValidationMessages['max']
+        ) | translate: { max: errors.max.max }
+      }}
+    </small>
+  }
+
+  @if (errors?.required) {
+    <small class="text-red-600">
+      {{
+        (!hasCustomErrorMessage('required')
+          ? 'main.global.validation.required'
+          : customValidationMessages['required']
+        ) | translate
+      }}
+    </small>
+  }
+
+  @if (errors?.requiredTrue) {
+    <small class="text-red-600">
+      {{
+        (!hasCustomErrorMessage('requiredTrue')
+          ? 'main.global.validation.requiredTrue'
+          : customValidationMessages['requiredTrue']
+        ) | translate
+      }}
+    </small>
+  }
+
+  @if (errors?.email) {
+    <small class="text-red-600">
+      {{
+        (!hasCustomErrorMessage('email')
+          ? 'main.global.validation.email'
+          : customValidationMessages['email']
+        ) | translate
+      }}
+    </small>
+  }
+
+  @if (errors?.minlength) {
+    <small class="text-red-600">
+      {{
+        (!hasCustomErrorMessage('minlength')
+          ? 'main.global.validation.minlength'
+          : customValidationMessages['minlength']
+        ) | translate: { minlength: errors.minlength.requiredLength }
+      }}
+    </small>
+  }
+
+  @if (errors?.maxlength) {
+    <small class="text-red-600">
+      {{
+        (!hasCustomErrorMessage('maxlength')
+          ? 'main.global.validation.maxlength'
+          : customValidationMessages['maxlength']
+        ) | translate: { maxlength: errors.maxlength.requiredLength }
+      }}
+    </small>
+  }
+
+  @if (errors?.pattern) {
+    <small class="text-red-600">
+      {{
+        (!hasCustomErrorMessage('pattern')
+          ? 'main.global.validation.pattern'
+          : customValidationMessages['pattern']
+        ) | translate: { pattern: errors.pattern.requiredPattern }
+      }}
+    </small>
+  }
+
+  @if (errors?.mismatch) {
+    <small class="text-red-600">
+      {{
+        (!hasCustomErrorMessage('mismatch')
+          ? 'main.global.validation.mismatch'
+          : customValidationMessages['mismatch']
+        ) | translate
+      }}
+    </small>
+  }
+}
+
+@if (hasServerErrors()) {
+  @for (se of serverErrors; track se) {
+    <small class="text-red-600">
+      {{ se }}
+    </small>
+  }
+}

@@ -1,0 +1,20 @@
+<button
+  class="three-state-switch {{ switchClass }}"
+  [ngClass]="{
+    active: switchState === false || switchState === true,
+    neutral: switchState === null,
+    'switch-false': switchState === false,
+  }"
+  (click)="onSettingChange()"
+  role="switch"
+  [attr.aria-checked]="switchState === null ? 'mixed' : switchState"
+>
+  <div
+    class="switch-knob"
+    [ngClass]="{
+      'switch-left': switchState === false,
+      'switch-middle': switchState === null,
+      'switch-right': switchState === true,
+    }"
+  ></div>
+</button>

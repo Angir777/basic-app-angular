@@ -1,0 +1,27 @@
+<div class="p-6">
+  <z-tab-group (zTabChange)="activeTab = $event.index">
+    <z-tab [label]="'account.tabsTitle.details' | translate">
+      @if (activeTab === 0) {
+        <div class="pt-4">
+          <app-user-details-tab></app-user-details-tab>
+        </div>
+      }
+    </z-tab>
+
+    <z-tab [label]="'account.tabsTitle.password' | translate">
+      @if (activeTab === 1) {
+        <div class="pt-4">
+          <app-user-password-tab></app-user-password-tab>
+        </div>
+      }
+    </z-tab>
+
+    <z-tab [label]="'account.tabsTitle.settings' | translate">
+      @if (activeTab === 2) {
+        <div class="pt-4">
+          <app-user-settings-tab></app-user-settings-tab>
+        </div>
+      }
+    </z-tab>
+  </z-tab-group>
+</div>

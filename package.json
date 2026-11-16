@@ -1,0 +1,97 @@
+{
+  "name": "dailo-app-basic",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build && npm run post-build",
+    "build-dev": "ng build --configuration development && npm run post-build",
+    "build-all": "npm run build && npm run build-dev",
+    "post-build": "node ./build/post-build.js",
+    "watch": "ng build --watch --configuration development",
+    "lint": "ng lint",
+    "test": "ng test",
+    "e2e": "ng e2e",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "private": true,
+  "packageManager": "npm@12.0.2",
+  "dependencies": {
+    "@angular/animations": "^22.1.6",
+    "@angular/cdk": "^22.1.6",
+    "@angular/common": "^22.1.6",
+    "@angular/compiler": "^22.1.6",
+    "@angular/core": "^22.1.6",
+    "@angular/forms": "^22.1.6",
+    "@angular/material": "^22.1.6",
+    "@angular/platform-browser": "^22.1.6",
+    "@angular/router": "^22.1.6",
+    "@fortawesome/angular-fontawesome": "^5.1.0",
+    "@fortawesome/fontawesome-free": "^7.3.1",
+    "@fortawesome/free-regular-svg-icons": "^7.3.1",
+    "@fortawesome/free-solid-svg-icons": "^7.3.1",
+    "@ng-icons/core": "^36.1.0",
+    "@ng-icons/lucide": "^36.1.0",
+    "@ng-select/ng-select": "^24.1.1",
+    "@ngx-translate/core": "^18.0.0",
+    "@ngx-translate/http-loader": "^18.0.0",
+    "chart.js": "^4.5.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.23",
+    "marked": "^18.0.12",
+    "marked-katex-extension": "^5.1.12",
+    "ngx-cookie-service": "^22.0.0",
+    "ngx-markdown": "^22.0.2",
+    "ngx-permissions": "^19.0.0",
+    "ngx-scrollbar": "^19.1.5",
+    "ngx-sonner": "^3.1.0",
+    "ngx-ui-switch": "^16.1.0",
+    "rxjs": "~7.8.2",
+    "sweetalert2": "^11.26.25",
+    "tailwind-merge": "^3.7.0",
+    "tslib": "^2.8.1",
+    "zone.js": "^0.16.3"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.1.7",
+    "@angular/cli": "^22.1.7",
+    "@angular/compiler-cli": "^22.1.6",
+    "@cypress/schematic": "^6.0.0",
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/postcss": "^4.3.3",
+    "angular-eslint": "22.5.0",
+    "autoprefixer": "^10.5.5",
+    "cypress": "16.0.0",
+    "eslint": "^10.10.0",
+    "eslint-plugin-prettier": "^5.5.6",
+    "jsdom": "^30.0.1",
+    "postcss": "^8.5.28",
+    "prettier": "^3.9.6",
+    "tailwindcss": "^4.3.3",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "~6.0.0",
+    "typescript-eslint": "8.70.0",
+    "vitest": "^4.1.11"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.6.0": true,
+    "cypress@16.0.0": true,
+    "esbuild@0.28.2": true,
+    "lmdb@3.5.6": true,
+    "msgpackr-extract@3.0.4": true
+  }
+}

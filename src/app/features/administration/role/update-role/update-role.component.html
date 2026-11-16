@@ -1,0 +1,162 @@
+<form name="form" role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="px-6 py-4 border-b border-gray-200 dark:border-zinc-800">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+      <h5 class="text-lg font-semibold text-gray-800 dark:text-white/90">
+        @if (role()?.id) {
+          {{ 'role.pageTitle.edit' | translate }}
+        } @else {
+          {{ 'role.pageTitle.add' | translate }}
+        }
+      </h5>
+
+      <div class="flex flex-wrap gap-2 sm:ml-auto">
+        <ng-container *ngTemplateOutlet="actionsButtons" />
+      </div>
+    </div>
+  </div>
+
+  <div class="p-6">
+    @if (isLoading() || isLoadingPermissions()) {
+      <div class="flex justify-center py-12">
+        <app-loader [isLoading]="true"></app-loader>
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <!-- Name -->
+        <div class="flex flex-col gap-1.5">
+          <label for="name" class="text-sm font-medium text-gray-700 dark:text-gray-200">
+            {{ 'role.form.name' | translate }} *
+          </label>
+
+          <input
+            z-input
+            id="name"
+            name="name"
+            type="text"
+            formControlName="name"
+            autocomplete="off"
+            [attr.aria-invalid]="isFormControlInvalid('name', 'name') ? 'true' : null"
+            (keydown)="clearServerErrors('name')"
+          />
+
+          @if (isFormControlInvalid('name', 'name')) {
+            <app-form-control-errors
+              [errors]="form.get('name')?.errors"
+              [serverErrors]="getServerErrors('name')"
+            />
+          }
+        </div>
+      </div>
+
+      <div class="my-8 border-t border-gray-200 dark:border-zinc-800"></div>
+
+      <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+              {{ 'role.form.permissions' | translate }}
+            </h3>
+
+            <span
+              tabindex="0"
+              role="button"
+              class="cursor-pointer text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 mb-2"
+              [matTooltip]="'role.message.info.aboutSelectPermissions' | translate"
+              matTooltipClass="bigger-tooltip"
+              (click)="tooltip.toggle()"
+              #tooltip="matTooltip"
+            >
+              <fa-icon [icon]="faInfoCircle"></fa-icon>
+            </span>
+          </div>
+
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            {{
+              'role.form.selected'
+                | translate
+                  : {
+                      selected: permissionsStats().selected,
+                      total: permissionsStats().total,
+                    }
+            }}
+          </p>
+        </div>
+
+        @if (role()?.id) {
+          <div class="flex items-center gap-3">
+            <span class="text-sm text-gray-600 dark:text-gray-400">
+              {{ 'role.form.showOnlySelected' | translate }}
+            </span>
+
+            <ui-switch
+              size="small"
+              [checked]="showOnlySelected()"
+              (change)="showOnlySelected.set($event)"
+            >
+            </ui-switch>
+          </div>
+        }
+      </div>
+
+      <!-- Permission groups -->
+      <div class="space-y-6">
+        @for (group of groupedPermissions(); track group.name) {
+          <div
+            class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
+          >
+            <div
+              class="border-b border-gray-200 bg-gray-50 px-5 py-3 dark:border-zinc-800 dark:bg-zinc-800/50"
+            >
+              <h4 class="font-semibold text-gray-900 dark:text-white">
+                {{ group.translatedName }}
+              </h4>
+            </div>
+
+            <!-- Permissions -->
+            <div class="grid gap-3 p-5 lg:grid-cols-2">
+              @for (permission of group.permissions; track permission.id) {
+                <div
+                  class="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 dark:border-zinc-700"
+                >
+                  <div>
+                    <div class="font-medium text-gray-900 dark:text-white">
+                      {{ permission.translatedName }}
+                    </div>
+
+                    <div class="text-xs text-gray-500 dark:text-gray-400">
+                      {{ permission.name }}
+                    </div>
+                  </div>
+
+                  <ui-switch
+                    size="small"
+                    [(ngModel)]="permission.isSelected"
+                    [ngModelOptions]="{ standalone: true }"
+                    (ngModelChange)="onPermissionChange()"
+                  >
+                  </ui-switch>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <div
+    class="flex flex-col gap-3 border-t border-gray-200 px-6 py-4 dark:border-zinc-800 sm:flex-row sm:justify-end"
+  >
+    <ng-container *ngTemplateOutlet="actionsButtons" />
+  </div>
+</form>
+
+<!-- Actions -->
+<ng-template #actionsButtons>
+  @if (!isLoading() && !isLoadingPermissions()) {
+    <!-- Save -->
+    <app-save-button type="submit" [loading]="isSaving()"> </app-save-button>
+  }
+  <!-- Back -->
+  <app-cancel-button> </app-cancel-button>
+</ng-template>

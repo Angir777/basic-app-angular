@@ -1,0 +1,31 @@
+<div class="column-selector-wrapper">
+  <span class="column-selector-label">
+    {{ 'main.global.hiddenColumnsAmount' | translate }}:
+    {{ allColumns().length - selectedColumns().length }}
+  </span>
+
+  <ng-select
+    [items]="allColumns()"
+    [multiple]="true"
+    [clearable]="false"
+    [closeOnSelect]="false"
+    [searchable]="false"
+    [ngModel]="selectedColumns()"
+    (ngModelChange)="onColumnsChange($event)"
+    class="column-selector"
+  >
+    <ng-template ng-option-tmp let-item="item">
+      <div class="column-option">
+        <z-checkbox
+          class="pointer-events-none"
+          inert
+          [ngModel]="selectedColumns().includes(item)"
+        />
+
+        <span class="column-option-label">
+          {{ columnTranslations()[item] | translate }}
+        </span>
+      </div>
+    </ng-template>
+  </ng-select>
+</div>

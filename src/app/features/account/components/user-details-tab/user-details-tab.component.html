@@ -1,0 +1,346 @@
+<form name="form" role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+  @if (isLoading()) {
+    <div class="flex justify-center py-12">
+      <app-loader [isLoading]="true"></app-loader>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <!-- Basic data -->
+      <section class="rounded-lg border border-gray-200 p-5 dark:border-zinc-700 lg:col-span-2">
+        <h6 class="mb-6 text-base font-semibold text-gray-800 dark:text-white/90">
+          {{ 'account.detailsTab.basicData' | translate }}
+        </h6>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-1">
+          <!-- Email -->
+          <div class="flex flex-col gap-1.5">
+            <label for="email" class="text-sm font-medium text-gray-700 dark:text-gray-200">
+              {{ 'user.form.email' | translate }}
+            </label>
+
+            <input
+              z-input
+              id="email"
+              name="email"
+              type="email"
+              formControlName="email"
+              autocomplete="off"
+              [attr.aria-invalid]="isFormControlInvalid('email', 'email') ? 'true' : null"
+              (keydown)="clearServerErrors('email')"
+            />
+
+            @if (isFormControlInvalid('email', 'email')) {
+              <app-form-control-errors
+                [errors]="form.get('email')?.errors"
+                [serverErrors]="getServerErrors('email')"
+              />
+            }
+          </div>
+
+          <!-- First name -->
+          <div class="flex flex-col gap-1.5">
+            <label for="firstName" class="text-sm font-medium text-gray-700 dark:text-gray-200">
+              {{ 'user.form.firstName' | translate }} *
+            </label>
+
+            <input
+              z-input
+              id="firstName"
+              name="firstName"
+              type="text"
+              formControlName="firstName"
+              autocomplete="off"
+              [attr.aria-invalid]="isFormControlInvalid('firstName', 'firstName') ? 'true' : null"
+              (keydown)="clearServerErrors('firstName')"
+            />
+
+            @if (isFormControlInvalid('firstName', 'firstName')) {
+              <app-form-control-errors
+                [errors]="form.get('firstName')?.errors"
+                [serverErrors]="getServerErrors('firstName')"
+              />
+            }
+          </div>
+
+          <!-- Last name -->
+          <div class="flex flex-col gap-1.5">
+            <label for="lastName" class="text-sm font-medium text-gray-700 dark:text-gray-200">
+              {{ 'user.form.lastName' | translate }} *
+            </label>
+
+            <input
+              z-input
+              id="lastName"
+              name="lastName"
+              type="text"
+              formControlName="lastName"
+              autocomplete="off"
+              [attr.aria-invalid]="isFormControlInvalid('lastName', 'lastName') ? 'true' : null"
+              (keydown)="clearServerErrors('lastName')"
+            />
+
+            @if (isFormControlInvalid('lastName', 'lastName')) {
+              <app-form-control-errors
+                [errors]="form.get('lastName')?.errors"
+                [serverErrors]="getServerErrors('lastName')"
+              />
+            }
+          </div>
+
+          <!-- Account confirmation status -->
+          <div class="mt-2 flex items-center gap-2 text-sm">
+            @if (user()?.confirmed) {
+              <span
+                class="inline-flex items-center gap-1.5 font-medium text-green-600 dark:text-green-400"
+              >
+                <fa-icon [icon]="faCircleCheck"></fa-icon>
+
+                {{ 'account.detailsTab.accountConfirmed' | translate }}
+              </span>
+
+              @if (user()?.emailVerifiedAt) {
+                <span class="text-gray-500 dark:text-gray-400">
+                  —
+                  {{ user()?.emailVerifiedAt | date: DATETIME_DISPLAY_HISTORY_FORMAT }}
+                </span>
+              }
+            } @else {
+              <span
+                class="inline-flex items-center gap-1.5 font-medium text-amber-600 dark:text-amber-400"
+              >
+                <fa-icon [icon]="faCircleExclamation"></fa-icon>
+
+                {{ 'account.detailsTab.accountNotConfirmed' | translate }}
+              </span>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- Avatar -->
+      <section class="rounded-lg border border-gray-200 p-5 dark:border-zinc-700">
+        <h6 class="mb-6 text-base font-semibold text-gray-800 dark:text-white/90">
+          {{ 'account.detailsTab.avatar' | translate }}
+        </h6>
+
+        <div class="flex flex-col items-center text-center">
+          <!-- Avatar preview -->
+          <div class="relative shrink-0">
+            @if (avatarPreview()) {
+              <img
+                [src]="avatarPreview()"
+                alt="Avatar"
+                class="h-28 w-28 rounded-full object-cover ring-4 ring-gray-100 dark:ring-zinc-800"
+              />
+            } @else {
+              <div
+                class="flex h-28 w-28 items-center justify-center rounded-full bg-gray-100 text-3xl font-semibold text-gray-500 ring-4 ring-gray-50 dark:bg-zinc-800 dark:text-gray-300 dark:ring-zinc-900"
+              >
+                {{ user()?.firstName?.charAt(0) }}
+                {{ user()?.lastName?.charAt(0) }}
+              </div>
+            }
+
+            @if (avatarPreview() && !selectedAvatar()) {
+              <button
+                type="button"
+                class="absolute -right-1 -top-1 inline-flex h-9 w-9 items-center justify-center rounded-full border border-red-200 bg-white text-red-600 shadow-sm transition-colors hover:bg-red-50 dark:border-red-900 dark:bg-zinc-900 dark:text-red-400 dark:hover:bg-red-950 cursor-pointer"
+                [disabled]="isSaving()"
+                (click)="removeAvatar(); $event.stopPropagation()"
+                [attr.aria-label]="'account.detailsTab.removeAvatar' | translate"
+                [matTooltip]="'main.global.tooltip.delete' | translate"
+                matTooltipPosition="above"
+              >
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            }
+          </div>
+
+          <!-- Dropzone -->
+          <div
+            class="mt-6 w-full"
+            role="button"
+            tabindex="0"
+            [class.cursor-not-allowed]="isSaving()"
+            [class.opacity-60]="isSaving()"
+            (click)="onDropzoneClick()"
+            (keydown.enter)="onDropzoneClick()"
+            (keydown.space)="onDropzoneClick()"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onFileDrop($event)"
+          >
+            <input
+              #fileInput
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              class="hidden"
+              [disabled]="isSaving()"
+              (change)="onAvatarChange($event)"
+            />
+
+            @if (!selectedAvatar()) {
+              <div
+                class="flex min-h-40 flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-8 text-center transition-all hover:border-brand-500 hover:bg-brand-50/50 dark:border-zinc-600 dark:hover:border-brand-500 dark:hover:bg-brand-950/20 cursor-pointer"
+                [class.border-brand-500]="isDragOver"
+                [class.bg-brand-50]="isDragOver"
+                [class.dark:bg-brand-950/20]="isDragOver"
+              >
+                <fa-icon
+                  [icon]="faCamera"
+                  class="text-3xl text-gray-400 transition-colors dark:text-gray-500"
+                  [class.text-brand-500]="isDragOver"
+                ></fa-icon>
+
+                <div class="mt-3 text-sm font-semibold text-gray-700 dark:text-gray-200">
+                  {{ 'account.detailsTab.changeAvatar' | translate }}
+                </div>
+
+                <div class="mt-2 text-xs text-gray-400 dark:text-gray-500">
+                  {{ 'account.detailsTab.avatarFormat' | translate }}
+                </div>
+              </div>
+            } @else {
+              <div
+                class="flex min-h-24 w-full items-center gap-4 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-zinc-700 dark:bg-zinc-800/50 cursor-pointer"
+              >
+                <div class="shrink-0">
+                  @if (avatarPreview()) {
+                    <img
+                      [src]="avatarPreview()"
+                      alt="Avatar preview"
+                      class="h-14 w-14 rounded-full object-cover"
+                    />
+                  }
+                </div>
+
+                <div class="min-w-0 flex-1 text-left">
+                  <div class="truncate text-sm font-medium text-gray-900 dark:text-white">
+                    {{ selectedAvatar()?.name }}
+                  </div>
+
+                  @if (getServerErrors('avatar').length) {
+                    <div class="mt-1 text-xs text-red-600 dark:text-red-400">
+                      {{ getServerErrors('avatar')[0] }}
+                    </div>
+                  }
+                </div>
+
+                <button
+                  type="button"
+                  class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-200 text-red-600 transition-colors hover:bg-red-50 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950 cursor-pointer"
+                  [disabled]="isSaving()"
+                  (click)="removeAvatar(); $event.stopPropagation()"
+                >
+                  <fa-icon [icon]="faTrash"></fa-icon>
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      </section>
+    </div>
+  }
+
+  <!-- Footer -->
+  <div class="flex justify-end mt-4">
+    @if (!isLoading()) {
+      <!-- Save -->
+      <app-save-button type="submit" [loading]="isSaving()"></app-save-button>
+    }
+  </div>
+
+  <!-- Resend activation email -->
+  @if (!isLoading() && !user()?.confirmed) {
+    <section
+      class="mt-6 overflow-hidden rounded-lg border border-amber-200 dark:border-amber-900/60"
+    >
+      <div
+        class="border-b border-amber-200 bg-amber-50 px-5 py-4 dark:border-amber-900/60 dark:bg-amber-950/20"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400"
+          >
+            <fa-icon [icon]="faEnvelope"></fa-icon>
+          </div>
+
+          <div>
+            <h6 class="text-base font-semibold text-amber-700 dark:text-amber-400">
+              {{ 'account.detailsTab.accountVerification' | translate }}
+            </h6>
+
+            <p class="mt-0.5 text-sm text-amber-600/80 dark:text-amber-400/80">
+              {{ 'account.detailsTab.resendConfirmationDescription' | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white px-5 py-4 dark:bg-zinc-900">
+        <button
+          type="button"
+          class="inline-flex items-center justify-center gap-2 rounded-lg border border-amber-300 bg-amber-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60 dark:border-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 cursor-pointer"
+          [disabled]="isSaving() || isResendingConfirmation()"
+          (click)="resendConfirmationEmail()"
+        >
+          @if (isResendingConfirmation()) {
+            <span
+              class="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"
+            ></span>
+          } @else {
+            <fa-icon [icon]="faEnvelope"></fa-icon>
+          }
+
+          {{ 'account.detailsTab.resendConfirmationEmail' | translate }}
+        </button>
+      </div>
+    </section>
+  }
+
+  <!-- Account deletion zone -->
+  @if (!isLoading()) {
+    <section class="mt-6 overflow-hidden rounded-lg border border-red-200 dark:border-red-900/60">
+      <div
+        class="border-b border-red-200 bg-red-50 px-5 py-4 dark:border-red-900/60 dark:bg-red-950/20"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-600 dark:bg-red-950/50 dark:text-red-400"
+          >
+            <fa-icon [icon]="faUserXmark"></fa-icon>
+          </div>
+
+          <div>
+            <h6 class="text-base font-semibold text-red-700 dark:text-red-400">
+              {{ 'account.detailsTab.dangerZone' | translate }}
+            </h6>
+
+            <p class="mt-0.5 text-sm text-red-600/80 dark:text-red-400/80">
+              {{ 'account.detailsTab.deleteAccountDescription' | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white px-5 py-4 dark:bg-zinc-900">
+        <button
+          type="button"
+          class="inline-flex items-center justify-center gap-2 rounded-lg border border-red-300 bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60 dark:border-red-700 dark:bg-red-700 dark:hover:bg-red-800 cursor-pointer"
+          [disabled]="isSaving() || isDeletingAccount()"
+          (click)="deleteAccount()"
+        >
+          @if (isDeletingAccount()) {
+            <span
+              class="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"
+            ></span>
+          } @else {
+            <fa-icon [icon]="faTrash"></fa-icon>
+          }
+
+          {{ 'account.detailsTab.deleteAccount' | translate }}
+        </button>
+      </div>
+    </section>
+  }
+</form>

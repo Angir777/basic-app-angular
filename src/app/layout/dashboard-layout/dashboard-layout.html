@@ -1,0 +1,20 @@
+<z-sidebar-provider zDefaultOpen="true">
+  <!-- Sidebar -->
+  <app-sidebar />
+  <main z-sidebar-inset class="min-w-0">
+    <!-- Header -->
+    <app-header />
+    <!-- Breadcrumb -->
+    <app-breadcrumb />
+    <!-- Content -->
+    <main class="flex-1 -mt-6 md:-mt-10 relative z-20">
+      <div class="mx-auto max-w-(--breakpoint-1xl) p-4 md:p-6">
+        <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-white dark:border-zinc-800">
+          <router-outlet />
+        </div>
+      </div>
+    </main>
+    <!-- Footer -->
+    <app-footer />
+  </main>
+</z-sidebar-provider>

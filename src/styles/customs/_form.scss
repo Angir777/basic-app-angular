@@ -1,0 +1,115 @@
+// /* ---------------------------------------------------
+//    Form validation styles
+//    --------------------------------------------------- */
+
+// .is-invalid-wrapper {
+//   .form-control {
+//     border-color: var(--cui-danger) !important;
+//     border-left: 4px solid var(--cui-danger);
+//   }
+
+//   .form-control-label {
+//     color: var(--cui-danger) !important;
+//   }
+// }
+
+// .is-valid-wrapper {
+//   .form-control {
+//     border-color: var(--cui-success) !important;
+//     border-left: 4px solid var(--cui-success);
+//   }
+
+//   .form-control-label {
+//     color: var(--cui-success) !important;
+//   }
+// }
+
+// /* ---------------------------------------------------
+//    Form styles
+//    --------------------------------------------------- */
+
+// // ui-switch fixes
+// ui-switch {
+//   max-width: 40px;
+
+//   // Switch background OFF
+//   .switch {
+//     background-color: var(--cui-secondary-bg);
+//     border: 1px solid var(--cui-border-color);
+//     transition: all 0.2s ease;
+//   }
+
+//   // Switch background ON
+//   .switch[aria-checked='true'] {
+//     background-color: var(--basic-dailo-success);
+//     border-color: var(--basic-dailo-success);
+//   }
+
+//   // Thumb
+//   .switch small {
+//     background-color: var(--cui-white);
+//   }
+
+//   // Disabled
+//   .switch[disabled],
+//   .switch[aria-disabled='true'] {
+//     background-color: var(--cui-tertiary-bg) !important;
+//     border-color: var(--cui-border-color) !important;
+//     opacity: 0.6;
+//     cursor: not-allowed;
+//   }
+
+//   .switch[disabled] small,
+//   .switch[aria-disabled='true'] small {
+//     background-color: var(--cui-secondary-color) !important;
+//   }
+// }
+
+// // Gray out readonly and disabled
+// input[readonly],
+// textarea[readonly],
+// input[disabled],
+// textarea[disabled] {
+//   background-color: var(--cui-tertiary-bg) !important;
+//   border: var(--cui-border-width) solid var(--cui-border-color) !important;
+//   color: var(--cui-body-color);
+//   cursor: not-allowed;
+// }
+
+// .form-control-label {
+//   color: var(--cui-body-color);
+// }
+
+// // Pulse animation for the icon
+// @keyframes pulse {
+//   0% {
+//     transform: scale(1);
+//     opacity: 1;
+//   }
+
+//   50% {
+//     transform: scale(1.2);
+//     opacity: 0.6;
+//   }
+
+//   100% {
+//     transform: scale(1);
+//     opacity: 1;
+//   }
+// }
+
+// .pulse-animation {
+//   animation: pulse 1.5s infinite;
+// }
+
+/* ---------------------------------------------------
+   Walidacja
+   --------------------------------------------------- */
+
+// Field validation marker
+// input.ng-valid {
+//   @apply border-green-500 hover:border-green-600 focus:border-green-600;
+// }
+input.ng-invalid.ng-dirty {
+  @apply border-red-600 hover:border-red-600 focus:border-red-600;
+}

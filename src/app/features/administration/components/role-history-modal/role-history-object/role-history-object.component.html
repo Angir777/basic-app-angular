@@ -1,0 +1,58 @@
+<table
+  class="w-full text-sm"
+  [ngClass]="{
+    'border-collapse': border,
+    'border-separate border-spacing-0': !border,
+  }"
+>
+  <tbody>
+    @for (change of history | keyvalue: originalOrder; track change; let last = $last) {
+      <tr>
+        <!-- ARRAY OF OBJECTS -->
+        @if (isArray(change.value)) {
+          <td colspan="2" class="w-full px-2 py-1 align-top">
+            <strong> {{ translationPrefix + getFullKey(change.key) | translate }}: </strong>
+
+            @for (item of change.value; track item; let i = $index; let isLast = $last) {
+              <app-role-history-object
+                [history]="item"
+                [parentKey]="getFullKey(change.key)"
+              ></app-role-history-object>
+
+              @if (!isLast) {
+                <hr class="my-2 border-gray-200" />
+              }
+            }
+          </td>
+        }
+
+        <!-- OBJECT AS A NESTED ELEMENT -->
+        @if (change.value?.old === undefined && !isArray(change.value)) {
+          <td colspan="2" class="w-full px-2 py-1 align-top">
+            <strong> {{ translationPrefix + getFullKey(change.key) | translate }}: </strong>
+
+            <app-role-history-object
+              [history]="change.value"
+              [parentKey]="getFullKey(change.key)"
+            ></app-role-history-object>
+          </td>
+        }
+
+        <!-- ATTRIBUTES -->
+        @if (change.value?.old !== undefined && !isArray(change.value)) {
+          <!-- OLD DATA -->
+          <td class="w-1/2 px-2 py-1 align-top">
+            {{ translationPrefix + getFullKey(change.key) | translate }}:
+            <strong>{{ change.value?.old || '-' }}</strong>
+          </td>
+
+          <!-- NEW DATA -->
+          <td class="w-1/2 px-2 py-1 align-top">
+            {{ translationPrefix + getFullKey(change.key) | translate }}:
+            <strong>{{ change.value?.new || '-' }}</strong>
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>

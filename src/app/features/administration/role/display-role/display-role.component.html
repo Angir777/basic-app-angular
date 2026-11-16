@@ -1,0 +1,89 @@
+<div class="px-6 py-4 border-b border-gray-200 dark:border-zinc-800">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+    <h5 class="text-lg font-semibold text-gray-800 dark:text-white/90">
+      {{ 'role.pageTitle.display' | translate }}
+    </h5>
+
+    <div class="flex flex-wrap gap-2 sm:ml-auto">
+      <ng-container *ngTemplateOutlet="actionsButtons" />
+    </div>
+  </div>
+</div>
+
+<div class="p-6">
+  @if (isLoading()) {
+    <div class="flex justify-center py-12">
+      <app-loader [isLoading]="true"></app-loader>
+    </div>
+  } @else {
+    @if (role() !== null) {
+      <div class="overflow-hidden rounded-lg border border-gray-200 dark:border-zinc-800">
+        <dl class="divide-y divide-gray-200 dark:divide-zinc-800">
+          <!-- ID -->
+          <div class="grid grid-cols-1 gap-2 px-6 py-4 sm:grid-cols-12">
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 sm:col-span-2">
+              {{ 'main.global.id' | translate }}
+            </dt>
+
+            <dd class="text-sm text-gray-900 dark:text-white/90 sm:col-span-10">
+              {{ role()?.id }}
+            </dd>
+          </div>
+
+          <!-- Name -->
+          <div class="grid grid-cols-1 gap-2 px-6 py-4 sm:grid-cols-12">
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 sm:col-span-2">
+              {{ 'role.form.name' | translate }}
+            </dt>
+
+            <dd class="text-sm text-gray-900 dark:text-white/90 sm:col-span-10">
+              {{ role()?.name }}
+            </dd>
+          </div>
+
+          <!-- Guard -->
+          <div class="grid grid-cols-1 gap-2 px-6 py-4 sm:grid-cols-12">
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 sm:col-span-2">
+              {{ 'role.form.guardName' | translate }}
+            </dt>
+
+            <dd class="text-sm text-gray-900 dark:text-white/90 sm:col-span-10">
+              {{ role()?.guardName }}
+            </dd>
+          </div>
+
+          <!-- Permissions -->
+          <div class="grid grid-cols-1 gap-y-2 px-6 py-4 sm:grid-cols-12 sm:gap-x-2">
+            <dt class="sm:col-span-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+              {{ 'role.form.permissionsCount' | translate }}
+            </dt>
+
+            <dd class="sm:col-span-10">
+              <div class="flex flex-wrap gap-2">
+                @for (permission of role()?.permissions; track permission) {
+                  <span
+                    class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700 dark:bg-zinc-800 dark:text-gray-300"
+                  >
+                    {{ permission.translatedName }} [{{ permission.name }}]
+                  </span>
+                }
+              </div>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    }
+  }
+</div>
+
+<div
+  class="px-6 py-4 border-t border-gray-200 dark:border-zinc-800 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-end"
+>
+  <ng-container *ngTemplateOutlet="actionsButtons" />
+</div>
+
+<!-- Actions -->
+<ng-template #actionsButtons>
+  <!-- Back -->
+  <app-cancel-button></app-cancel-button>
+</ng-template>

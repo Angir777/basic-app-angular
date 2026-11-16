@@ -1,0 +1,7 @@
+@if (!appVersion() && showTestBanner()) {
+  <app-demo-banner (closed)="onBannerClosed()"></app-demo-banner>
+}
+
+<z-sonner position="top-right" [theme]="theme()" [richColors]="true" [closeButton]="true" />
+
+<router-outlet></router-outlet>

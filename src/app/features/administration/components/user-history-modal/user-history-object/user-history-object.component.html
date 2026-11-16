@@ -1,0 +1,120 @@
+<table
+  class="w-full text-sm"
+  [ngClass]="{
+    'border-collapse': border,
+    'border-separate border-spacing-0': !border,
+  }"
+>
+  <tbody>
+    @for (change of history | keyvalue: originalOrder; track change; let last = $last) {
+      <tr>
+        <!-- ARRAY OF OBJECTS -->
+        @if (isArray(change.value)) {
+          <td colspan="2" class="w-full px-2 py-1 align-top">
+            <strong> {{ translationPrefix + getFullKey(change.key) | translate }}: </strong>
+
+            @for (item of change.value; track item; let i = $index; let isLast = $last) {
+              <app-user-history-object
+                [history]="item"
+                [parentKey]="getFullKey(change.key)"
+              ></app-user-history-object>
+
+              @if (!isLast) {
+                <hr class="my-2 border-gray-200" />
+              }
+            }
+          </td>
+        }
+
+        <!-- OBJECT AS A NESTED ELEMENT -->
+        @if (change.value?.old === undefined && !isArray(change.value)) {
+          <td colspan="2" class="w-full px-2 py-1 align-top">
+            <strong> {{ translationPrefix + getFullKey(change.key) | translate }}: </strong>
+
+            <app-user-history-object
+              [history]="change.value"
+              [parentKey]="getFullKey(change.key)"
+            ></app-user-history-object>
+          </td>
+        }
+
+        <!-- ATTRIBUTES -->
+        @if (change.value?.old !== undefined && !isArray(change.value)) {
+          <!-- OLD DATA -->
+          <td class="w-1/2 px-2 py-1 align-top">
+            {{ translationPrefix + getFullKey(change.key) | translate }}:
+
+            @if (
+              getFullKey(change.key) !== 'emailVerifiedAt' &&
+              getFullKey(change.key) !== 'deletedAt' &&
+              getFullKey(change.key) !== 'confirmed'
+            ) {
+              {{ getHistoryValue(change.value?.old) }}
+            }
+
+            <!-- DATE FORMAT -->
+            @if (
+              getFullKey(change.key) === 'emailVerifiedAt' || getFullKey(change.key) === 'deletedAt'
+            ) {
+              <strong>
+                {{
+                  change.value?.old
+                    ? (change.value.old | date: DATETIME_DISPLAY_HISTORY_FORMAT)
+                    : '-'
+                }}
+              </strong>
+            }
+
+            <!-- TRUE/FALSE -->
+            @if (getFullKey(change.key) === 'confirmed') {
+              <strong>
+                {{
+                  change.value?.old
+                    ? ('main.global.yes' | translate)
+                    : ('main.global.no' | translate)
+                }}
+              </strong>
+            }
+          </td>
+
+          <!-- NEW DATA -->
+          <td class="w-1/2 px-2 py-1 align-top">
+            {{ translationPrefix + getFullKey(change.key) | translate }}:
+
+            @if (
+              getFullKey(change.key) !== 'emailVerifiedAt' &&
+              getFullKey(change.key) !== 'deletedAt' &&
+              getFullKey(change.key) !== 'confirmed'
+            ) {
+              {{ getHistoryValue(change.value?.new) }}
+            }
+
+            <!-- DATE FORMAT -->
+            @if (
+              getFullKey(change.key) === 'emailVerifiedAt' || getFullKey(change.key) === 'deletedAt'
+            ) {
+              <strong>
+                {{
+                  change.value?.new
+                    ? (change.value.new | date: DATETIME_DISPLAY_HISTORY_FORMAT)
+                    : '-'
+                }}
+              </strong>
+            }
+
+            <!-- TRUE/FALSE -->
+            @if (getFullKey(change.key) === 'confirmed') {
+              <strong>
+                {{
+                  change.value?.new
+                    ? ('main.global.yes' | translate)
+                    : ('main.global.no' | translate)
+                }}
+              </strong>
+            }
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>

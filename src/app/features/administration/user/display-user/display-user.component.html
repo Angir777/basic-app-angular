@@ -1,0 +1,139 @@
+<div class="px-6 py-4 border-b border-gray-200 dark:border-zinc-800">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+    <h5 class="text-lg font-semibold text-gray-800 dark:text-white/90">
+      {{ 'user.pageTitle.display' | translate }}
+    </h5>
+
+    <div class="flex flex-wrap gap-2 sm:ml-auto">
+      <ng-container *ngTemplateOutlet="actionsButtons" />
+    </div>
+  </div>
+</div>
+
+<div class="p-6">
+  @if (isLoading()) {
+    <div class="flex justify-center py-12">
+      <app-loader [isLoading]="true"></app-loader>
+    </div>
+  } @else {
+    @if (user() !== null) {
+      <div class="overflow-hidden rounded-lg border border-gray-200 dark:border-zinc-800">
+        <dl class="divide-y divide-gray-200 dark:divide-zinc-800">
+          <!-- ID -->
+          <div class="grid grid-cols-1 gap-2 px-6 py-4 sm:grid-cols-12">
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 sm:col-span-2">
+              {{ 'main.global.id' | translate }}
+            </dt>
+
+            <dd class="text-sm text-gray-900 dark:text-white/90 sm:col-span-10">
+              {{ user()?.id }}
+            </dd>
+          </div>
+
+          <!-- Full name -->
+          <div class="grid grid-cols-1 gap-2 px-6 py-4 sm:grid-cols-12">
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 sm:col-span-2">
+              {{ 'user.form.fullName' | translate }}
+            </dt>
+
+            <dd class="text-sm text-gray-900 dark:text-white/90 sm:col-span-10">
+              {{ user()?.fullName }}
+            </dd>
+          </div>
+
+          <!-- Email -->
+          <div class="grid grid-cols-1 gap-2 px-6 py-4 sm:grid-cols-12">
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 sm:col-span-2">
+              {{ 'user.form.email' | translate }}
+            </dt>
+
+            <dd class="text-sm text-gray-900 dark:text-white/90 sm:col-span-10">
+              {{ user()?.email }}
+            </dd>
+          </div>
+
+          <!-- Role -->
+          <div class="grid grid-cols-1 gap-y-2 px-6 py-4 sm:grid-cols-12 sm:gap-x-2">
+            <dt class="sm:col-span-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+              {{ 'user.form.role' | translate }}
+            </dt>
+
+            <dd class="sm:col-span-10">
+              <div class="flex flex-wrap gap-2">
+                @for (role of user()?.roles; track role) {
+                  <span
+                    class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700 dark:bg-zinc-800 dark:text-gray-300"
+                  >
+                    {{ role.translatedName }} [{{ role.name }}]
+                  </span>
+                }
+              </div>
+            </dd>
+          </div>
+
+          <!-- Permissions -->
+          <div class="grid grid-cols-1 gap-y-2 px-6 py-4 sm:grid-cols-12 sm:gap-x-2">
+            <dt class="sm:col-span-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+              {{ 'user.form.permission' | translate }}
+            </dt>
+
+            <dd class="sm:col-span-10">
+              <div class="flex flex-wrap gap-2">
+                @for (permission of getPermissions(); track permission.id) {
+                  <span
+                    class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700 dark:bg-zinc-800 dark:text-gray-300"
+                  >
+                    {{ permission.translatedName }} [{{ permission.name }}]
+                  </span>
+                }
+              </div>
+            </dd>
+          </div>
+
+          <!-- Account confirmed -->
+          <div class="grid grid-cols-1 gap-y-2 px-6 py-4 sm:grid-cols-12 sm:gap-x-2">
+            <dt class="sm:col-span-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+              {{ 'user.form.confirmed' | translate }}
+            </dt>
+
+            <dd class="sm:col-span-10">
+              @if (user()?.confirmed) {
+                <div class="flex flex-wrap items-center gap-2">
+                  <span
+                    class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                  >
+                    {{ 'user.form.confirmed' | translate }}
+                  </span>
+
+                  @if (user()?.emailVerifiedAt) {
+                    <span class="text-sm text-gray-500 dark:text-gray-400">
+                      {{ user()?.emailVerifiedAt | date: DATETIME_DISPLAY_HISTORY_FORMAT }}
+                    </span>
+                  }
+                </div>
+              } @else {
+                <span
+                  class="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-1 text-xs font-medium text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                >
+                  {{ 'user.form.notConfirmed' | translate }}
+                </span>
+              }
+            </dd>
+          </div>
+        </dl>
+      </div>
+    }
+  }
+</div>
+
+<div
+  class="px-6 py-4 border-t border-gray-200 dark:border-zinc-800 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-end"
+>
+  <ng-container *ngTemplateOutlet="actionsButtons" />
+</div>
+
+<!-- Actions -->
+<ng-template #actionsButtons>
+  <!-- Back -->
+  <app-cancel-button></app-cancel-button>
+</ng-template>

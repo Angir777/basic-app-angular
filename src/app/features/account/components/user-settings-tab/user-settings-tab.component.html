@@ -1,0 +1,43 @@
+<form name="form" role="form" novalidate (ngSubmit)="onSubmit()" [formGroup]="form">
+  @if (isLoading()) {
+    <div class="flex justify-center py-12">
+      <app-loader [isLoading]="true"></app-loader>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 gap-6">
+      <section class="rounded-lg border border-gray-200 p-5 dark:border-zinc-700">
+        <h6 class="mb-6 text-base font-semibold text-gray-800 dark:text-white/90">
+          {{ 'account.settingsTab.title' | translate }}
+        </h6>
+
+        <div class="grid grid-cols-1 gap-4">
+          @for (settingName of settingNames; track settingName) {
+            @let setting = settings[settingName];
+
+            <div
+              class="flex items-center justify-between rounded-lg border border-gray-200 p-4 dark:border-zinc-700"
+            >
+              <div>
+                <div class="text-sm font-medium text-gray-800 dark:text-white/90">
+                  {{ setting.translatedName }}
+                </div>
+
+                <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  {{ setting.translatedDescription }}
+                </div>
+              </div>
+
+              <ui-switch size="small" [formControlName]="setting.name"></ui-switch>
+            </div>
+          }
+        </div>
+      </section>
+    </div>
+  }
+
+  <!-- Footer -->
+  <div class="mt-4 flex justify-end">
+    <!-- Save -->
+    <app-save-button type="submit" [loading]="isSaving()"></app-save-button>
+  </div>
+</form>

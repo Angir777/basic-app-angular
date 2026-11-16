@@ -1,0 +1,29 @@
+<button
+  z-button
+  zType="ghost"
+  zSize="icon-sm"
+  z-dropdown
+  [zDropdownMenu]="languageMenu"
+  [attr.aria-label]="'layout.header.languages.title' | translate"
+>
+  <ng-icon name="lucideLanguages" />
+</button>
+
+<z-dropdown-menu-content
+  #languageMenu="zDropdownMenuContent"
+  class="min-w-48 rounded-lg"
+  zSide="bottom"
+  zAlign="end"
+>
+  <z-dropdown-menu-label>{{ 'layout.header.languages.title' | translate }}</z-dropdown-menu-label>
+
+  <z-dropdown-menu-separator />
+
+  <z-dropdown-menu-radio-group [zValue]="currentLanguage" (zValueChange)="setLanguage($event)">
+    @for (language of languages; track language) {
+      <z-dropdown-menu-radio-item [zValue]="language">
+        {{ 'layout.header.languages.' + language | translate }}
+      </z-dropdown-menu-radio-item>
+    }
+  </z-dropdown-menu-radio-group>
+</z-dropdown-menu-content>

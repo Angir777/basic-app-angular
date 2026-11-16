@@ -1,0 +1,225 @@
+<div>
+  <div class="mb-5 text-center sm:text-start">
+    <h1>{{ 'auth.register.texts.signUp' | translate }}</h1>
+    <p>{{ 'auth.register.texts.signUpInfo' | translate }}</p>
+  </div>
+
+  <form (ngSubmit)="submitForm()" [formGroup]="form" novalidate class="space-y-3">
+    <!-- Alerts -->
+    @if (!isLoading() && error) {
+      <div class="mb-5">
+        <z-alert
+          zType="destructive"
+          zRole="alert"
+          [zDescription]="'auth.register.messages.error.' + error | translate"
+          [zAction]="closeErrorAction"
+        />
+
+        <ng-template #closeErrorAction>
+          <button
+            z-button
+            type="button"
+            zType="ghost"
+            zSize="icon-xs"
+            [attr.aria-label]="'main.global.button.close' | translate"
+            (click)="error = ''"
+          >
+            <fa-icon [icon]="icons.xmark" />
+          </button>
+        </ng-template>
+      </div>
+    }
+
+    <!-- First name -->
+    <div>
+      <label for="firstName" class="text-sm font-medium">
+        {{ 'auth.register.form.firstName' | translate }}
+      </label>
+
+      <input
+        z-input
+        formControlName="firstName"
+        id="firstName"
+        type="text"
+        name="firstName"
+        [placeholder]="'auth.register.form.firstName' | translate"
+        class="w-full"
+        [attr.aria-invalid]="isFormControlInvalid('firstName', 'firstName') ? 'true' : null"
+        (keydown)="clearServerErrors('firstName')"
+      />
+
+      @if (isFormControlInvalid('firstName', 'firstName')) {
+        <app-form-control-errors
+          [errors]="form.get('firstName')?.errors"
+          [serverErrors]="getServerErrors('firstName')"
+        />
+      }
+    </div>
+
+    <!-- Last name -->
+    <div>
+      <label for="lastName" class="text-sm font-medium">
+        {{ 'auth.register.form.lastName' | translate }}
+      </label>
+
+      <input
+        z-input
+        formControlName="lastName"
+        id="lastName"
+        type="text"
+        name="lastName"
+        [placeholder]="'auth.register.form.lastName' | translate"
+        class="w-full"
+        [attr.aria-invalid]="isFormControlInvalid('lastName', 'lastName') ? 'true' : null"
+        (keydown)="clearServerErrors('lastName')"
+      />
+
+      @if (isFormControlInvalid('lastName', 'lastName')) {
+        <app-form-control-errors
+          [errors]="form.get('lastName')?.errors"
+          [serverErrors]="getServerErrors('lastName')"
+        />
+      }
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label for="email" class="text-sm font-medium">
+        {{ 'auth.register.form.email' | translate }}
+      </label>
+
+      <input
+        z-input
+        formControlName="email"
+        id="email"
+        type="email"
+        name="email"
+        [placeholder]="'auth.register.form.email' | translate"
+        class="w-full"
+        [attr.aria-invalid]="isFormControlInvalid('email', 'email') ? 'true' : null"
+        (keydown)="clearServerErrors('email')"
+      />
+
+      @if (isFormControlInvalid('email', 'email')) {
+        <app-form-control-errors
+          [errors]="form.get('email')?.errors"
+          [serverErrors]="getServerErrors('email')"
+        />
+      }
+    </div>
+
+    <!-- Password -->
+    <div>
+      <label for="password" class="text-sm font-medium">
+        {{ 'auth.register.form.password' | translate }}
+      </label>
+
+      <div class="relative">
+        <input
+          z-input
+          formControlName="password"
+          id="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          name="password"
+          placeholder="******"
+          class="w-full pr-10"
+          [attr.aria-invalid]="isFormControlInvalid('password', 'password') ? 'true' : null"
+          (keydown)="clearServerErrors('password')"
+        />
+
+        <button
+          type="button"
+          (click)="togglePasswordVisibility()"
+          class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-black/80 dark:text-white/80"
+        >
+          <fa-icon [icon]="showPassword() ? icons.eye : icons.eyeSlash" />
+        </button>
+      </div>
+
+      @if (isFormControlInvalid('password', 'password')) {
+        <app-form-control-errors
+          [errors]="form.get('password')?.errors"
+          [serverErrors]="getServerErrors('password')"
+        />
+      }
+    </div>
+
+    <!-- Password confirmation -->
+    <div>
+      <label for="passwordConfirmation" class="text-sm font-medium">
+        {{ 'auth.register.form.passwordConfirmation' | translate }}
+      </label>
+
+      <div class="relative">
+        <input
+          z-input
+          formControlName="passwordConfirmation"
+          id="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          name="password"
+          placeholder="******"
+          class="w-full pr-10"
+          [attr.aria-invalid]="
+            isFormControlInvalid('passwordConfirmation', 'passwordConfirmation') ? 'true' : null
+          "
+          (keydown)="clearServerErrors('passwordConfirmation')"
+        />
+
+        <button
+          type="button"
+          (click)="togglePasswordVisibility()"
+          class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-black/80 dark:text-white/80"
+        >
+          <fa-icon [icon]="showPassword() ? icons.eye : icons.eyeSlash" />
+        </button>
+      </div>
+
+      @if (isFormControlInvalid('passwordConfirmation', 'passwordConfirmation')) {
+        <app-form-control-errors
+          [errors]="form.get('passwordConfirmation')?.errors"
+          [serverErrors]="getServerErrors('passwordConfirmation')"
+        />
+      }
+    </div>
+
+    <!-- Accept terms and conditions -->
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer select-none">
+        <z-checkbox formControlName="acceptanceRegulations" zId="acceptanceRegulations" />
+
+        <label for="acceptanceRegulations" class="cursor-pointer select-none text-sm">
+          {{ 'auth.register.form.acceptanceRegulations' | translate }}
+        </label>
+      </div>
+
+      @if (isFormControlInvalid('acceptanceRegulations', 'acceptanceRegulations')) {
+        <app-form-control-errors
+          [errors]="form.get('acceptanceRegulations')?.errors"
+          [serverErrors]="getServerErrors('acceptanceRegulations')"
+        />
+      }
+    </div>
+
+    <!-- Create account -->
+    <button
+      type="submit"
+      z-button
+      zSize="lg"
+      class="w-full"
+      [zLoading]="isLoading()"
+      [zDisabled]="form.invalid || isLoading()"
+    >
+      {{ 'auth.register.buttons.register' | translate }}
+    </button>
+  </form>
+
+  <!-- Login -->
+  <div class="mt-5">
+    <p class="text-center sm:text-start text-sm text-primary">
+      {{ 'auth.register.texts.haveAccount' | translate }}
+      <a routerLink="/login" class="text-sm text-primary hover:underline">
+        {{ 'auth.register.buttons.signIn' | translate }}
+      </a>
+    </p>
+  </div>
+</div>

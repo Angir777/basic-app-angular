@@ -1,0 +1,78 @@
+<div class="min-h-screen flex bg-[#eaf3f4] dark:bg-[#162326]">
+  <!-- LEFT - IMAGE -->
+  <div
+    class="absolute inset-0 lg:relative lg:w-1/2 overflow-hidden pointer-events-none lg:pointer-events-auto"
+  >
+    <img
+      src="/assets/images/bg/sign-in-bg.png"
+      class="absolute inset-0 w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-[4000ms]"
+      alt="Login background"
+    />
+
+    <!-- Subtle pulses -->
+    <div
+      class="absolute top-40 left-10 w-84 h-84 bg-white/25 blur-3xl rounded-full animate-pulse"
+    ></div>
+    <div
+      class="absolute bottom-100 right-60 w-50 h-50 bg-white/30 blur-3xl rounded-full animate-pulse"
+    ></div>
+
+    <!-- Text on the image -->
+    <div class="hidden lg:flex relative z-10 flex-col justify-center p-16 text-white h-full">
+      <h2
+        class="font-extrabold tracking-tight leading-[1.05] -ml-6 lg:ml-0 text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.35)] text-shadow-lg text-[56px] md:text-[72px] lg:text-[96px] xl:text-[120px]"
+      >
+        {{ 'auth.slogan.headOne' | translate }} <br />
+        {{ 'auth.slogan.headTwo' | translate }} <br />
+        {{ 'auth.slogan.headThree' | translate }}
+      </h2>
+
+      <p
+        class="mt-8 max-w-md text-white leading-relaxed drop-shadow-[0_8px_20px_rgba(0,0,0,0.35)] text-shadow-lg text-base md:text-lg lg:text-xl xl:text-2xl"
+      >
+        {{ 'auth.slogan.teaser' | translate }}
+      </p>
+    </div>
+  </div>
+
+  <!-- RIGHT - FORM -->
+  <div class="flex flex-1 items-center justify-center px-6 py-12 relative z-10">
+    <div class="w-full max-w-lg">
+      <div class="flex justify-between items-center mb-3">
+        <!-- Language switcher -->
+        <div class="flex items-center gap-2">
+          <div
+            class="flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/30 bg-white/60 text-gray-700 backdrop-blur-md dark:border-zinc-700/50 dark:bg-zinc-800/60 dark:text-gray-200"
+          >
+            <fa-icon [icon]="icons.globe" class="text-base" />
+          </div>
+
+          <z-select
+            class="h-10 [&_button]:h-10 [&_button]:cursor-pointer flex-1 bg-white/60 dark:bg-zinc-800/60"
+            [zValue]="currentLanguage"
+            zPosition="popper"
+            (zSelectionChange)="onLanguageChange($event)"
+          >
+            @for (language of languages; track language) {
+              <z-select-item [zValue]="language">
+                {{ language.toUpperCase() }}
+              </z-select-item>
+            }
+          </z-select>
+        </div>
+
+        <!-- Theme switcher -->
+        <app-theme-toggle-two />
+      </div>
+
+      <!-- View content -->
+      <div class="animate-[fadeIn_.6s_ease]">
+        <div
+          class="backdrop-blur-2xl bg-white/60 dark:bg-zinc-800/60 border border-white/30 dark:border-zinc-700/50 shadow-[0_10px_40px_rgba(0,0,0,0.08)] rounded-2xl p-8"
+        >
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

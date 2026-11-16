@@ -1,0 +1,91 @@
+@use 'sass:color';
+
+/* ---------------------------------------------------
+   Button styles
+   --------------------------------------------------- */
+
+// Full width on small screens
+@media (max-width: 767px) {
+  .w-sm-100 {
+    width: 100% !important;
+  }
+}
+
+// White text on button hover
+.btn-hover-white:hover {
+  color: white;
+}
+
+/* ---------------------------------------------------
+   BASE
+   --------------------------------------------------- */
+
+// .bg-primary,
+// .btn-primary {
+//   background-color: var(--basic-dailo-primary) !important;
+//   border-color: var(--basic-dailo-primary) !important;
+//   color: #fff;
+// }
+
+.bg-success,
+.btn-success {
+  background-color: var(--basic-dailo-success) !important;
+  border-color: var(--basic-dailo-success) !important;
+  color: #fff;
+}
+
+.bg-danger,
+.btn-danger {
+  background-color: var(--basic-dailo-danger) !important;
+  border-color: var(--basic-dailo-danger) !important;
+  color: #fff;
+}
+
+.bg-warning,
+.btn-warning {
+  background-color: var(--basic-dailo-warning) !important;
+  border-color: var(--basic-dailo-warning) !important;
+  color: #000; // warning usually has dark text
+}
+
+.bg-info,
+.btn-info {
+  background-color: var(--basic-dailo-info) !important;
+  border-color: var(--basic-dailo-info) !important;
+  color: #fff;
+}
+
+/* ---------------------------------------------------
+   HOVER
+   --------------------------------------------------- */
+
+.btn-primary:hover,
+.bg-primary:hover {
+  background-color: var(--basic-dailo-primary-hover) !important;
+  border-color: var(--basic-dailo-primary-hover) !important;
+  color: #fff;
+}
+
+.btn-success:hover,
+.bg-success:hover {
+  background-color: var(--basic-dailo-success-hover) !important;
+  border-color: var(--basic-dailo-success-hover) !important;
+}
+
+.btn-danger:hover,
+.bg-danger:hover {
+  background-color: var(--basic-dailo-danger-hover) !important;
+  border-color: var(--basic-dailo-danger-hover) !important;
+}
+
+.btn-warning:hover,
+.bg-warning:hover {
+  background-color: var(--basic-dailo-warning-hover) !important;
+  border-color: var(--basic-dailo-warning-hover) !important;
+}
+
+.btn-info:hover,
+.bg-info:hover {
+  background-color: var(--basic-dailo-info-hover) !important;
+  border-color: var(--basic-dailo-info-hover) !important;
+}
