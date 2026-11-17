@@ -18,8 +18,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 })
 export abstract class MatTableComponent<T>
   extends BaseMatTableQueryComponent
-  implements AfterViewInit
-{
+  implements AfterViewInit {
   // State
   data: T[] = [];
   appendedCriteria = {};
@@ -82,7 +81,7 @@ export abstract class MatTableComponent<T>
           return this.fetchMethod({
             sort: prepareSortParams(this.sort.active, this.sort.direction),
             page: this.paginator.pageIndex + 1,
-            page_size: this.paginator.pageSize,
+            pageSize: this.paginator.pageSize,
             ...this.criteria,
             ...this.appendedCriteria,
           });
